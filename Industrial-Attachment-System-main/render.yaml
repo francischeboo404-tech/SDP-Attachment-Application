@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: youth-portal-backend
+    env: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    plan: free
+    healthCheckPath: /admin/login/
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: portal-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "youth-portal-backend.onrender.com"
+
+databases:
+  - name: portal-db
+    plan: free
+

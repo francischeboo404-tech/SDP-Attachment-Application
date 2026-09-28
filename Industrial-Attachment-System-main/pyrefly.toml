@@ -1,0 +1,22 @@
+# Pyrefly (Meta's Python type checker) configuration for this Django project.
+# The 64 "errors" shown in VS Code are false positives that occur because
+# Pyrefly extracts individual method bodies into virtual in-memory files
+# (C:\_pyrefly_virtual_\inmemory\*.py) and analyses them without their
+# surrounding class / import context.
+
+[project]
+source_path = ["backend"]
+python_version = "3.12"
+ignore = [
+    "_pyrefly_virtual_",
+    "**/migrations/**",
+    "**/venv/**",
+    "**/.venv/**",
+]
+
+[errors]
+ignore_error_codes = [
+    "unknown-name",
+    "parse-error",
+    "invalid-syntax",
+]

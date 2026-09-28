@@ -1,0 +1,458 @@
+@import "tailwindcss";
+
+@theme {
+  /*
+   * TYPE SCALE -- SINGLE SOURCE OF TRUTH
+   *
+   * Tailwind's default scale is tuned for dense desktop dashboards, which left
+   * body copy, form labels, inputs and buttons straining to read at 12-14px.
+   * These overrides re-base the whole scale larger in one place, so every one
+   * of the ~1100 existing text-* utilities moves together and stays on a
+   * consistent ratio instead of being nudged per component.
+   *
+   *   step   before   after    ratio
+   *   2xs       --   12px      (new micro tier, replaces hardcoded 9/10/11px)
+   *   xs       12px   14px    +17%
+   *   sm       14px   16px    +14%
+   *   base     16px   18px    +13%   <- body text, form labels, inputs
+   *   lg       18px   20px    +11%
+   *   xl       20px   22px    +10%
+   *   2xl      24px   26px    +8%
+   *   3xl      30px   32px    +7%
+   *   4xl      36px   40px    +11%
+   *
+   * 2xs exists because the old ad-hoc text-[9px]/[10px]/[11px] micro-labels
+   * (step badges, status pills) are a distinct role from real body text: they
+   * need to be readable but must stay small enough not to overflow their pill.
+   * They were remapped to this tier rather than to xs, which would break the
+   * tight badge/tab layouts they sit in.
+   */
+  --text-2xs: 0.75rem;
+  --text-xs: 0.875rem;
+  --text-sm: 1rem;
+  --text-base: 1.125rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.625rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
+
+  /*
+   * PRIMARY BRAND COLOR -- SINGLE SOURCE OF TRUTH
+   *
+   * The exact brand value is #bf7d2a, held at --color-primary-600 and mirrored
+   * on --color-primary. This supersedes the earlier screenshot-approximated
+   * palette; do not reintroduce the old #b6783b as a second brand value, and
+   * prefer these tokens over hardcoded hexes in components.
+   *
+   * CORRECTION HISTORY: the value was previously written as #bf7c2a, a
+   * one-character transcription error. The official guideline (Ministry of
+   * Energy & Petroleum identity guideline, "Identity Elements - Colour
+   * Palette") specifies #bf7d2a (CMYK C22 M54 Y100 K5). #bf7c2a is retired and
+   * must not reappear anywhere in the system.
+   *
+   * The surrounding steps are a tint/shade ramp of that same hue, not separate
+   * brand colors, so the whole ramp stays visually consistent with #bf7d2a.
+   *
+   * WCAG AA contrast of the exact brand value (computed with the WCAG 2.x
+   * relative-luminance formula, recomputed after the correction):
+   *   #bf7d2a on white .... 3.40:1  -> PASSES AA large text (>=3:1), FAILS AA
+   *                                     normal text (4.5:1)
+   *   white on #bf7d2a .... 3.40:1  -> same: large text / UI only
+   *   #bf7d2a on #0F172A ... 5.26:1  -> PASSES AA normal text
+   *
+   * The corrected value scores marginally LOWER than the erroneous #bf7c2a
+   * (3.40:1 vs 3.42:1 on white) because '7d' is one step lighter than '7c'.
+   * Both clear the 3:1 large-text/UI threshold, so the correction does not
+   * change which usages are permitted -- but it was re-verified rather than
+   * assumed, because the previous pass was measured against the wrong value.
+   *
+   * => Wherever the brand color is a BACKGROUND carrying small text (primary
+   *    buttons, badges, chips), use --color-primary-700 (#996322, 5.05:1 with
+   *    white) instead of the exact 600 value. That is the same hue, just one
+   *    step darker, and it is the only place the exact value is substituted.
+   *    The exact #bf7d2a remains correct for large text, icons, borders,
+   *    active-step indicators, progress fills and other non-text UI, all of
+   *    which only need the 3:1 threshold and pass at 3.40:1.
+   */
+  --color-primary-50: #fdfaf6;
+  --color-primary-100: #faf3e8;
+  --color-primary-200: #f2e5d4; /* official 20% gold tint */
+  --color-primary-300: #e5cba5;
+  --color-primary-400: #d5a862;
+  --color-primary-500: #c78f45;
+  --color-primary-600: #bf7d2a; /* EXACT BRAND VALUE -- do not alter */
+  --color-primary-700: #996322; /* Brand shade for white small text (5.05:1) */
+  --color-primary-800: #764d1a;
+  --color-primary-900: #583913;
+  --color-primary-950: #3d280d;
+  --color-primary: #bf7d2a; /* defaults to the exact brand value */
+
+  /*
+   * Ink for text sitting ON the full-strength gold.
+   *
+   * This is what makes undiluted gold usable as a button fill. White on
+   * #bf7d2a is only 3.40:1, which fails AA for normal-size text (4.5:1) --
+   * button labels here are 16px bold, below the 18.66px large-text threshold
+   * that would relax the rule to 3:1. Previously the workaround was to drop
+   * buttons to --color-primary-700, which is a visibly duller, browner gold
+   * and is exactly the "fading" the brand calls for.
+   *
+   * A near-black ink on the same full-strength gold measures 5.15:1 and passes
+   * AA comfortably, so the exact brand value can be used directly and at full
+   * saturation. The hover step (--color-primary-500) is the next LIGHTER gold
+   * at 6.20:1, which keeps the hover state on-brand and still readable, rather
+   * than darkening into the faded 700.
+   */
+  --color-primary-on: #1c1917;
+
+  /* Accessible text/border variant of the brand hue, for small brand-coloured
+     text and hairlines on white. 5.05:1 with white, so it is the token to use
+     for brand-coloured body text where 600 would fail AA. */
+  --color-primary-readable: #996322;
+
+  /* Gold Highlight & Underline Accent -- a lighter highlight of the brand hue,
+     used for decorative underlines and hero accents only (never for text). */
+  --color-gold-400: #d5a862;
+  --color-gold-500: #c78f45;
+  --color-gold-600: #bf7d2a;
+  --color-gold-700: #996322;
+
+  /*
+   * OFFICIAL IDENTITY COLOURS (Ministry of Energy & Petroleum identity
+   * guideline, "Identity Elements - Colour Palette", page 19).
+   *
+   * Gold is the primary brand colour. Black, Red and Green are the NATIONAL
+   * IDENTITY accent colours: in the source they appear as three thin vertical
+   * bars beside the Ministry name/crest. They are therefore restricted to the
+   * `.identity-accent` element and must NOT be used as general interface
+   * colour, button fills, or large background areas.
+   *
+   * The guideline gives Red and Green as CMYK/Pantone only, with no hex. The
+   * values below are the standard CMYK->RGB conversion and are a REASONABLE
+   * STARTING POINT, not verified Pantone digital values. If pixel-perfect
+   * fidelity matters, confirm against Pantone's official colour bridge or the
+   * brand/communications team before relying on them beyond the thin accent.
+   */
+  --color-identity-black: #000000;
+  --color-identity-red: #ff0000; /* C0 M100 Y100 K0 / Pantone 48-8 U (computed) */
+  --color-identity-green: #00ff00; /* C100 M0 Y100 K0 / Pantone 139-15 U (computed) */
+
+  /* Official 20% tints (20% colour + 80% white), per the guideline's
+     "each colour can also be used in tints of 20%" note. Black text sits on
+     all of these at >=13:1, so they are safe as subtle section surfaces.
+     The gold tint is the --color-primary-200 step of the brand ramp rather than
+     a separate token, so the two can never drift apart. */
+  --color-identity-black-20: #cccccc;
+  --color-identity-red-20: #ffcccc;
+  --color-identity-green-20: #ccffcc;
+
+  /*
+   * FUNCTIONAL STATUS COLOURS -- deliberately NOT the identity Red/Green.
+   *
+   * Web convention maps red to errors and green to success, and the identity
+   * Red/Green are fully saturated #FF0000/#00FF00. Reusing them for status
+   * would conflate "this is the national identity mark" with "this is a
+   * validation error", so functional states use conventional UI shades
+   * instead and the exact identity hues stay confined to the accent element.
+   *
+   * Contrast on white (WCAG AA, 4.5:1 for normal text):
+   *   --color-status-error   #dc2626 -> 4.83:1  PASS
+   *   --color-status-success #15803d -> 5.02:1  PASS
+   * NOTE: the commonly suggested success green #16a34a was rejected -- it is
+   * only 3.30:1 on white and fails AA for normal text. #15803d is the same
+   * green family one step darker and passes. For comparison the identity hues
+   * would have been unusable here anyway: #00ff00 is 1.37:1 on white.
+   */
+  --color-status-error: #dc2626;
+  --color-status-error-readable: #b91c1c; /* 6.47:1, for small text on tinted bg */
+  --color-status-success: #15803d;
+  --color-status-success-readable: #166534; /* 7.13:1, for small text on tinted bg */
+  --color-status-warning: #b45309; /* 4.83:1 on white */
+  --color-status-info: #0369a1;
+
+  /* Official Secondary / Cyan-Blue Accent from screenshot social icons & buttons */
+  --color-accent-50: #f0f9ff;
+  --color-accent-100: #e0f2fe;
+  --color-accent-200: #bae6fd;
+  --color-accent-300: #7dd3fc;
+  --color-accent-400: #38bdf8;
+  --color-accent-500: #1da1f2; /* Vibrant Blue from screenshot social button */
+  --color-accent-600: #0284c7;
+  --color-accent-700: #0369a1;
+  --color-accent-800: #075985;
+  --color-accent-900: #0c4a6e;
+
+  /* Rich Dark Canvas & Footer Tokens from screenshot */
+  --color-petroleum-dark: #151515; /* Upper Footer Rich Charcoal / Black */
+  --color-petroleum-charcoal: #151515;
+  --color-petroleum-midnight: #071922; /* Lower Copyright Midnight Bar */
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl;
+  }
+
+  /*
+   * NATIONAL IDENTITY ACCENT
+   *
+   * Three thin vertical bars in the official identity colours (black, red,
+   * green), reproducing the restrained identity mark used beside the Ministry
+   * name/crest. This is the ONLY sanctioned use of the exact identity hues --
+   * they are deliberately thin so they read as a mark, not as interface colour,
+   * and they never carry text, so the 1.37:1 contrast of the identity green
+   * against white is not a text-contrast concern.
+   *
+   * Each bar is given a text alternative via the parent label; the bars
+   * themselves are aria-hidden so screen readers are not told about three
+   * meaningless colour swatches.
+   */
+  .identity-accent {
+    display: inline-flex;
+    align-items: stretch;
+    gap: 2px;
+    height: 1.5rem;
+    width: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .identity-accent > span {
+    display: block;
+    flex: 1 1 0%;
+    border-radius: 1px;
+  }
+
+  .identity-accent > span:nth-child(1) { background-color: var(--color-identity-black); }
+  .identity-accent > span:nth-child(2) { background-color: var(--color-identity-red); }
+  .identity-accent > span:nth-child(3) { background-color: var(--color-identity-green); }
+}
+
+/*
+ * Typographic styling for the Admin-authored eligibility rich text rendered on
+ * the public landing page. Tailwind's preflight strips all default list and
+ * heading formatting, so the hierarchy has to be re-applied explicitly or
+ * Admin-formatted content would render as an unstyled run-together block.
+ * Selectors stay deliberately close to the server-side sanitizer allowlist
+ * (p, br, strong, em, h2-h4, ul, ol, li, a).
+ */
+@layer components {
+  /*
+   * Shared rich-text prose styles.
+   *
+   * `.rich-prose` is the general-purpose class for any Admin- or
+   * Director-authored rich text (vacancy descriptions, requisition notes).
+   * `.eligibility-prose` is the original name, kept so the public eligibility
+   * block and its tests are unaffected. Both resolve to the same rules via
+   * :is(), so every rich-text surface in the system is guaranteed to render
+   * identically -- which is the point: previously each place invented its own
+   * typography and formatted content looked different depending on where it
+   * was shown.
+   */
+  :is(.rich-prose, .eligibility-prose) > *:first-child {
+    margin-top: 0;
+  }
+
+  :is(.rich-prose, .eligibility-prose) > *:last-child {
+    margin-bottom: 0;
+  }
+
+  :is(.rich-prose, .eligibility-prose) p {
+    @apply leading-relaxed;
+    /* Matches the new --text-base (18px) so admin-authored body copy sits at
+       the same size as the rest of the system rather than a step below it. */
+    font-size: 1.125rem;
+    margin-bottom: 0.85rem;
+  }
+
+  :is(.rich-prose, .eligibility-prose) h2 {
+    @apply font-black text-slate-900 tracking-tight;
+    font-size: 1.45rem;
+    margin: 1.35rem 0 0.6rem;
+  }
+
+  :is(.rich-prose, .eligibility-prose) h3 {
+    @apply font-black text-slate-900 tracking-tight;
+    font-size: 1.25rem;
+    margin: 1.15rem 0 0.5rem;
+  }
+
+  :is(.rich-prose, .eligibility-prose) h4 {
+    @apply font-black text-slate-800;
+    font-size: 1.125rem;
+    margin: 1rem 0 0.45rem;
+  }
+
+  :is(.rich-prose, .eligibility-prose) ul {
+    @apply list-disc;
+    margin: 0 0 0.85rem 1.4rem;
+  }
+
+  :is(.rich-prose, .eligibility-prose) ol {
+    @apply list-decimal;
+    margin: 0 0 0.85rem 1.4rem;
+  }
+
+  :is(.rich-prose, .eligibility-prose) li {
+    @apply leading-relaxed;
+    margin-bottom: 0.3rem;
+  }
+
+  :is(.rich-prose, .eligibility-prose) li > ul,
+  :is(.rich-prose, .eligibility-prose) li > ol {
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  :is(.rich-prose, .eligibility-prose) strong {
+    @apply font-black text-slate-900;
+  }
+
+  :is(.rich-prose, .eligibility-prose) em {
+    @apply italic;
+  }
+
+  :is(.rich-prose, .eligibility-prose) u {
+    @apply underline;
+    text-underline-offset: 2px;
+  }
+
+  :is(.rich-prose, .eligibility-prose) a {
+    @apply font-bold underline;
+    color: var(--color-primary-700);
+    text-underline-offset: 2px;
+  }
+
+  :is(.rich-prose, .eligibility-prose) a:hover {
+    color: var(--color-primary-800);
+  }
+
+  /*
+   * Compact variant.
+   *
+   * `.rich-prose` sets body copy to 1.125rem, which is right for a full-width
+   * description block but far too large inside a dense card whose surrounding
+   * text is `text-xs`. The heading sizes were set explicitly in the block above
+   * rather than inherited, so a parent `text-xs` cannot scale them down and
+   * Tailwind's `text-*` class would simply lose the specificity contest.
+   *
+   * Rather than loosening the cascade, the small context states its own scale.
+   * Applied by ExpandableRichText's `compact` prop.
+   */
+  .rich-prose--compact p {
+    font-size: 0.8125rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .rich-prose--compact h2 {
+    font-size: 1rem;
+    margin: 0.85rem 0 0.4rem;
+  }
+
+  .rich-prose--compact h3 {
+    font-size: 0.9375rem;
+    margin: 0.75rem 0 0.35rem;
+  }
+
+  .rich-prose--compact h4 {
+    font-size: 0.875rem;
+    margin: 0.65rem 0 0.3rem;
+  }
+
+  .rich-prose--compact ul,
+  .rich-prose--compact ol {
+    margin: 0 0 0.6rem 1.1rem;
+  }
+
+  .rich-prose--compact li {
+    font-size: 0.8125rem;
+    margin-bottom: 0.2rem;
+  }
+}
+
+/*
+ * Vacancy marquee.
+ *
+ * The public vacancy strip scrolls right-to-left and loops seamlessly. The
+ * seamless part is the whole trick: the track holds the card list twice, side
+ * by side, and the keyframe translates by exactly -50%. Because the second copy
+ * begins where the first ends, the instant the animation restarts the two are
+ * pixel-identical in position, so the loop point is invisible. Translating by
+ * the track's real pixel width instead would drift on every cycle, because the
+ * width depends on the number of vacancies and the viewport.
+ *
+ * Duplicating the DOM also means every "Apply for Attachment" button is
+ * clickable twice over, so the second copy is marked aria-hidden and taken out
+ * of the tab order; only the real copy is reachable by keyboard or screen
+ * reader.
+ */
+@keyframes vacancy-marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.vacancy-marquee {
+  overflow: hidden;
+  /* Fade the edges so cards enter and leave rather than being sliced off. */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 4rem,
+    #000 calc(100% - 4rem),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 4rem,
+    #000 calc(100% - 4rem),
+    transparent 100%
+  );
+}
+
+.vacancy-marquee__track {
+  display: flex;
+  width: max-content;
+  gap: 1.5rem;
+  animation: vacancy-marquee-scroll var(--marquee-duration, 45s) linear infinite;
+  /* Hint the compositor so the scroll is not re-rasterised every frame. */
+  will-change: transform;
+}
+
+/* Pausing on hover lets a reader actually read and click a card they are
+   trying to reach -- a strip that keeps moving under the cursor is unusable. */
+.vacancy-marquee:hover .vacancy-marquee__track,
+.vacancy-marquee:focus-within .vacancy-marquee__track {
+  animation-play-state: paused;
+}
+
+/* A continuously moving strip is a genuine accessibility problem for people
+   with vestibular disorders, and a WCAG 2.2.2 concern in its own right. Honour
+   the OS setting: stop the movement entirely and let the strip scroll normally,
+   so nothing is lost. */
+@media (prefers-reduced-motion: reduce) {
+  .vacancy-marquee__track {
+    animation: none;
+    transform: none;
+    width: auto;
+    flex-wrap: wrap;
+  }
+
+  /* The track holds the list twice for the seamless loop. With no animation
+     there is no second half to scroll into, so the duplicate would just show
+     every vacancy twice. */
+  .vacancy-marquee__clone {
+    display: none;
+  }
+
+  .vacancy-marquee {
+    overflow-x: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+

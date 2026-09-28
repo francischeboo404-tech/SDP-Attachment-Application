@@ -1,0 +1,18 @@
+Title: ICT Infrastructure & Systems Support Attachment
+Job Type: Attachment
+Location: Nairobi, Headquarters (or Relevant Branch)
+Application Deadline: [Insert Date, e.g., 2026-12-31T17:00]
+
+Job Description:
+The ICT department is seeking motivated, highly-skilled students for an industrial attachment program. You will be responsible for assisting our core IT team in deploying, managing, and troubleshooting system infrastructure. 
+
+Key responsibilities include:
+1. Providing level 1 technical support for hardware and software issues.
+2. Assisting in the maintenance of network infrastructure and server administration.
+3. Helping to develop, test, and implement internal software solutions and database optimizations.
+4. Ensuring strict adherence to data privacy and security compliance protocols.
+
+This attachment provides hands-on experience in a fast-paced enterprise environment, equipping you with practical skills in systems administration and software engineering.
+
+Requirements (ATS Keywords):
+Information Technology, Computer Science, Software Engineering, Networking, Troubleshooting, Database, SQL, Python, JavaScript, Linux, Hardware Support, System Administration, Cybersecurity, Analytical Skills, Active Directory.

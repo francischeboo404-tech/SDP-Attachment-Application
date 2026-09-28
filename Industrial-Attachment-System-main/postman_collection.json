@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "aa1c911b-1234-5678-abcd-1234567890ab",
+		"name": "GoK E-Recruitment Portal APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\":\"30123456\",\"email\":\"jane.doe@example.com\",\"password\":\"SecurePass123\",\"first_name\":\"Jane\",\"last_name\":\"Doe\",\"role\":\"APPLICANT\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/api/accounts/register/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"register",
+								""
+							]
+						}
+					}
+				},
+				{
+					"name": "Login (Generate Token)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\":\"30123456\",\"password\":\"SecurePass123\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/api/accounts/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"login",
+								""
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Careers",
+			"item": [
+				{
+					"name": "Get Vacancies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/api/careers/vacancies/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"api",
+								"careers",
+								"vacancies",
+								""
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+}
