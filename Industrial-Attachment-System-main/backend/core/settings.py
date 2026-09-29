@@ -38,7 +38,7 @@ SECRET_KEY = env(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["youth-portal-backend.onrender.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["sdp-attachment-application.onrender.com", "localhost", "127.0.0.1"]
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # See core/test_runner.py: Django 5.0's test client breaks on Python 3.14 in a
@@ -209,7 +209,7 @@ EMAIL_PORT = env.int("EMAIL_PORT", default=587)
 EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
 EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="State Department for Petroleum <noreply@petroleum.go.ke>")
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="State Department for Petroleum <info@petroleum.go.ke>")
 
 # Celery / Redis Asynchronous Task Queue Configuration
 CELERY_BROKER_URL = env("CELERY_BROKER_URL", default=env("REDIS_URL", default="redis://localhost:6379/0"))
@@ -268,14 +268,15 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://sdp-industrial-attachment-system.vercel.app",
+    "https://sdpattachmentsystem.vercel.app",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://sdp-industrial-attachment-system.vercel.app",
+    "https://sdpattachmentsystem.vercel.app",
+    "https://sdp-attachment-application.onrender.com",
 ]
 
 
