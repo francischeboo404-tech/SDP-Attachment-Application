@@ -7,7 +7,7 @@ const WORKFLOW_PRESETS = {
         steps: [
             { id: 1, label: 'Profile Setup', desc: 'Complete biodata & required documents' },
             { id: 2, label: 'Find Vacancy', desc: 'Apply to open department attachments' },
-            { id: 3, label: 'Successful', desc: 'HR review' },
+            { id: 3, label: 'Successful?', desc: 'HR review' },
             { id: 4, label: 'Deployment', desc: 'Active industrial attachment period' },
             { id: 5, label: 'Director Clearance', desc: 'Stage 1 logbook & task sign-off' },
             { id: 6, label: 'HR Clearance', desc: 'Stage 2 institutional clearance' },
