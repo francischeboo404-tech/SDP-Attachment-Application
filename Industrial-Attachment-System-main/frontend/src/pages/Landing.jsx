@@ -85,7 +85,7 @@ export default function Landing() {
                     <div className="flex items-center gap-3">
                         <img src="/logo.png" alt="State Department for Petroleum" className="h-12 w-auto object-contain filter drop-shadow-sm" />
                         <div>
-                            <span className="text-xs uppercase tracking-widest text-primary-700 font-extrabold block">Republic of Kenya</span>
+                            <span className="text-xs uppercase tracking-widest text-primary-700 font-extrabold block">Kenya</span>
                             <span className="text-base sm:text-lg font-black text-slate-900 tracking-tight block leading-none">State Department for Petroleum</span>
                         </div>
                     </div>
